@@ -141,7 +141,8 @@ const userRoleDisplay = computed(() => {
     system_admin: '系统管理员',
     process_engineer: '工艺工程师',
     equipment_operator: '设备操作员',
-    quality_inspector: '质量检测员'
+    quality_inspector: '质量检测员',
+    fullstack_engineer: '全栈工程师'
   }
   return user.value ? typeMap[user.value.user_type] : ''
 })

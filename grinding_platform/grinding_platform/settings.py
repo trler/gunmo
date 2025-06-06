@@ -48,12 +48,18 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
+    'django_filters',
     
     # Local apps
     'users.apps.UsersConfig',
     'equipment.apps.EquipmentConfig',
     'process_data.apps.ProcessDataConfig',
     'system_settings',
+    'grinding_blocks.apps.GrindingBlocksConfig',
+    'base_info.apps.BaseInfoConfig',
+    'process_cases.apps.ProcessCasesConfig',
+    'polishing_requirements.apps.PolishingRequirementsConfig',
+    'polishing_processes.apps.PolishingProcessesConfig',
 ]
 
 MIDDLEWARE = [
@@ -91,18 +97,20 @@ WSGI_APPLICATION = 'grinding_platform.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+import os
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'grinding_db',
-        'USER': 'root',
-        'PASSWORD': 'lcx1234321',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'NAME': os.getenv('DB_NAME', 'grinding_db'),
+        'USER': os.getenv('DB_USER', 'root'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'lcx1234321'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'PORT': os.getenv('DB_PORT', '3306'),
         'OPTIONS': {
             'charset': 'utf8mb4',
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        }
+            'sql_mode': 'STRICT_TRANS_TABLES',
+        },
     }
 }
 

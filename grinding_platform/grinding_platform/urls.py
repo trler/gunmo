@@ -49,6 +49,21 @@ urlpatterns = [
         
         # 系统设置
         path('system/', include('system_settings.urls')),
+        
+        # 磨块信息管理
+        path('grinding-blocks/', include('grinding_blocks.urls')),
+        
+        # 基础信息库
+        path('base-info/', include('base_info.urls')),
+        
+        # 工艺案例管理
+        path('process-cases/', include('process_cases.urls')),
+        
+        # 光整需求管理
+        path('polishing-requirements/', include('polishing_requirements.urls')),
+        
+        # 光整工艺管理
+        path('polishing-processes/', include('polishing_processes.urls')),
     ])),
 ]
 

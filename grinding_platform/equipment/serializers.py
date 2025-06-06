@@ -1,6 +1,6 @@
 # equipment/serializers.py
 from rest_framework import serializers
-from .models import Equipment, EquipmentType, EquipmentMaintenance, EquipmentAlert
+from .models import Equipment, EquipmentType, EquipmentMaintenance, EquipmentAlert, Chemical
 
 class EquipmentTypeSerializer(serializers.ModelSerializer):
     """设备类型序列化器"""
@@ -53,4 +53,32 @@ class EquipmentAlertSerializer(serializers.ModelSerializer):
             'title', 'message', 'is_resolved', 'resolved_by', 'resolved_by_name',
             'resolved_at', 'created_at'
         ]
-        read_only_fields = ['id', 'created_at'] 
+        read_only_fields = ['id', 'created_at']
+
+class ChemicalSerializer(serializers.ModelSerializer):
+    """化学剂序列化器"""
+    type_display = serializers.CharField(source='get_type_display', read_only=True)
+    safety_level_display = serializers.CharField(source='get_safety_level_display', read_only=True)
+    msds_file_url = serializers.SerializerMethodField()
+    formula_file_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Chemical
+        fields = [
+            'id', 'code', 'name', 'type', 'type_display', 'manufacturer',
+            'components', 'ph_range', 'density', 'flash_point',
+            'safety_level', 'safety_level_display', 'expiry_date',
+            'msds_file', 'msds_file_url', 'formula_file', 'formula_file_url',
+            'remark', 'created_at', 'updated_at'
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at']
+
+    def get_msds_file_url(self, obj):
+        if obj.msds_file:
+            return self.context['request'].build_absolute_uri(obj.msds_file.url)
+        return None
+
+    def get_formula_file_url(self, obj):
+        if obj.formula_file:
+            return self.context['request'].build_absolute_uri(obj.formula_file.url)
+        return None 

@@ -127,3 +127,43 @@ class EquipmentAlert(models.Model):
         
     def __str__(self):
         return f"{self.equipment.name} - {self.title}"
+
+class Chemical(models.Model):
+    """化学剂信息"""
+    SAFETY_LEVEL_CHOICES = [
+        ('low', '低风险'),
+        ('medium', '中风险'),
+        ('high', '高风险'),
+    ]
+
+    TYPE_CHOICES = [
+        ('cutting_fluid', '切削液'),
+        ('cleaning_agent', '清洗剂'),
+        ('rust_preventive', '防锈剂'),
+        ('lubricant', '润滑剂'),
+        ('passivator', '钝化剂'),
+    ]
+
+    code = models.CharField(max_length=50, unique=True, verbose_name='化学剂编号')
+    name = models.CharField(max_length=200, verbose_name='化学剂名称')
+    type = models.CharField(max_length=20, choices=TYPE_CHOICES, verbose_name='类型')
+    manufacturer = models.CharField(max_length=200, verbose_name='生产厂家')
+    components = models.TextField(verbose_name='主要成分')
+    ph_range = models.CharField(max_length=50, verbose_name='PH值范围')
+    density = models.FloatField(verbose_name='密度(g/cm³)')
+    flash_point = models.CharField(max_length=50, verbose_name='闪点(℃)')
+    safety_level = models.CharField(max_length=10, choices=SAFETY_LEVEL_CHOICES, default='low', verbose_name='安全等级')
+    expiry_date = models.DateField(verbose_name='有效期')
+    msds_file = models.FileField(upload_to='chemicals/msds/', null=True, blank=True, verbose_name='MSDS文件')
+    formula_file = models.FileField(upload_to='chemicals/formulas/', null=True, blank=True, verbose_name='配方文件')
+    remark = models.TextField(blank=True, verbose_name='备注')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    class Meta:
+        verbose_name = '化学剂'
+        verbose_name_plural = '化学剂'
+        ordering = ['code']
+
+    def __str__(self):
+        return f"{self.name} ({self.code})"

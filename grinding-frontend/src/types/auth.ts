@@ -1,5 +1,5 @@
 // 用户类型
-export type UserType = 'system_admin' | 'process_engineer' | 'equipment_operator' | 'quality_inspector'
+export type UserType = 'system_admin' | 'process_engineer' | 'equipment_operator' | 'quality_inspector' | 'fullstack_engineer'
 
 // 用户信息
 export interface User {

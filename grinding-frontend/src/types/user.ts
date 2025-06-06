@@ -1,4 +1,4 @@
-export type UserRole = 'system_admin' | 'process_engineer' | 'equipment_operator' | 'quality_inspector'
+export type UserRole = 'system_admin' | 'process_engineer' | 'equipment_operator' | 'quality_inspector' | 'fullstack_engineer'
 export type UserStatus = 'active' | 'inactive'
 
 export interface User {

@@ -1,147 +1,224 @@
 <template>
   <nav class="navigation">
     <div class="nav-header">
-      <h1 class="logo">滚磨光整加工平台</h1>
-      <div class="user-info" v-if="user">
-        <span class="username">{{ user.username }}</span>
-        <span class="user-role">{{ userTypeDisplay }}</span>
-      </div>
+      <h1 class="logo">滚磨光整加工数据库平台</h1>
     </div>
-
     <div class="nav-menu">
-      <!-- 系统管理员菜单 -->
-      <template v-if="isSystemAdmin">
-        <router-link to="/dashboard" class="nav-item">
-          <i class="fas fa-tachometer-alt"></i>
-          <span>仪表盘</span>
-        </router-link>
-        <router-link to="/system/settings" class="nav-item">
-          <i class="fas fa-cogs"></i>
-          <span>系统设置</span>
-        </router-link>
-        <router-link to="/system/users" class="nav-item">
-          <i class="fas fa-users"></i>
-          <span>用户管理</span>
-        </router-link>
-        <router-link to="/system/statistics" class="nav-item">
-          <i class="fas fa-chart-bar"></i>
-          <span>数据统计</span>
-        </router-link>
-      </template>
-
-      <!-- 工艺工程师菜单 -->
-      <template v-if="isProcessEngineer">
-        <router-link to="/dashboard" class="nav-item">
-          <i class="fas fa-tachometer-alt"></i>
-          <span>仪表盘</span>
-        </router-link>
-        <router-link to="/process/library" class="nav-item">
-          <i class="fas fa-book"></i>
-          <span>工艺库</span>
-        </router-link>
-        <!-- TODO: 待添加的菜单项 -->
-        <!-- <router-link to="/process/optimization" class="nav-item">
-          <i class="fas fa-sliders-h"></i>
-          <span>参数优化</span>
-        </router-link>
-        <router-link to="/process/cases" class="nav-item">
-          <i class="fas fa-folder"></i>
-          <span>案例管理</span>
-        </router-link> -->
-      </template>
-
-      <!-- 设备操作员菜单 -->
-      <template v-if="isEquipmentOperator">
-        <router-link to="/dashboard" class="nav-item">
-          <i class="fas fa-tachometer-alt"></i>
-          <span>仪表盘</span>
-        </router-link>
-        <router-link to="/equipment/operation" class="nav-item">
-          <i class="fas fa-cogs"></i>
-          <span>设备操作</span>
-        </router-link>
-        <!-- TODO: 待添加的菜单项 -->
-        <!-- <router-link to="/equipment/monitor" class="nav-item">
-          <i class="fas fa-desktop"></i>
-          <span>设备监控</span>
-        </router-link>
-        <router-link to="/equipment/records" class="nav-item">
-          <i class="fas fa-history"></i>
-          <span>运行记录</span>
-        </router-link> -->
-      </template>
-
-      <!-- 质量检测员菜单 -->
-      <template v-if="isQualityInspector">
-        <router-link to="/dashboard" class="nav-item">
-          <i class="fas fa-tachometer-alt"></i>
-          <span>仪表盘</span>
-        </router-link>
-        <router-link to="/quality/inspection" class="nav-item">
-          <i class="fas fa-clipboard-check"></i>
-          <span>质量检测</span>
-        </router-link>
-        <!-- TODO: 待添加的菜单项 -->
-        <!-- <router-link to="/quality/reports" class="nav-item">
-          <i class="fas fa-file-alt"></i>
-          <span>质量报告</span>
-        </router-link> -->
-      </template>
-
-      <!-- 所有用户通用菜单 -->
-      <router-link to="/profile" class="nav-item">
-        <i class="fas fa-user"></i>
-        <span>个人资料</span>
-      </router-link>
-      
-      <button @click="handleLogout" class="nav-item logout-btn">
-        <i class="fas fa-sign-out-alt"></i>
-        <span>退出登录</span>
-      </button>
+      <!-- 系统设置 -->
+      <div class="nav-group">
+        <div class="nav-group-header" @click="toggleGroup('system')">
+          <div class="nav-group-title">
+            <i class="fas fa-cogs"></i>
+            <span>系统设置</span>
+          </div>
+          <i class="fas fa-chevron-down" :class="{ 'rotated': expandedGroups.system }"></i>
+        </div>
+        <div class="nav-group-content" v-show="expandedGroups.system">
+          <router-link to="/system/params" class="nav-item">
+            <span>系统参数管理</span>
+          </router-link>
+          <router-link to="/system/permissions" class="nav-item">
+            <span>系统权限管理</span>
+          </router-link>
+          <router-link to="/system/users" class="nav-item">
+            <span>系统用户管理</span>
+          </router-link>
+          <router-link to="/system/logs" class="nav-item">
+            <span>系统日志管理</span>
+          </router-link>
+        </div>
+      </div>
+      <!-- 基础信息库 -->
+      <div class="nav-group">
+        <div class="nav-group-header" @click="toggleGroup('base')">
+          <div class="nav-group-title">
+            <i class="fas fa-database"></i>
+            <span>基础信息库</span>
+          </div>
+          <i class="fas fa-chevron-down" :class="{ 'rotated': expandedGroups.base }"></i>
+        </div>
+        <div class="nav-group-content" v-show="expandedGroups.base">
+          <router-link to="/base-info/companies" class="nav-item">
+            <span>企业信息数据库</span>
+          </router-link>
+          <router-link to="/base-info/departments" class="nav-item">
+            <span>部门信息数据库</span>
+          </router-link>
+          <router-link to="/base-info/personnel" class="nav-item">
+            <span>人员信息数据库</span>
+          </router-link>
+          <router-link to="/base-info/standards" class="nav-item">
+            <span>标准规范数据库</span>
+          </router-link>
+        </div>
+      </div>
+      <!-- 物料数据库 -->
+      <div class="nav-group">
+        <div class="nav-group-header" @click="toggleGroup('material')">
+          <div class="nav-group-title">
+            <i class="fas fa-boxes"></i>
+            <span>物料数据库</span>
+          </div>
+          <i class="fas fa-chevron-down" :class="{ 'rotated': expandedGroups.material }"></i>
+        </div>
+        <div class="nav-group-content" v-show="expandedGroups.material">
+          <router-link to="/material/parts" class="nav-item">
+            <span>零件信息数据库</span>
+          </router-link>
+          <router-link to="/material/equipment" class="nav-item">
+            <span>滚磨设备数据库</span>
+          </router-link>
+          <router-link to="/material/blocks" class="nav-item">
+            <span>滚抛磨块数据库</span>
+          </router-link>
+          <router-link to="/material/chemicals" class="nav-item">
+            <span>化学剂数据库</span>
+          </router-link>
+          <router-link to="/material/fixtures" class="nav-item">
+            <span>工装信息数据库</span>
+          </router-link>
+        </div>
+      </div>
+      <!-- 工艺数据库 -->
+      <div class="nav-group">
+        <div class="nav-group-header" @click="toggleGroup('process')">
+          <div class="nav-group-title">
+            <i class="fas fa-book"></i>
+            <span>工艺数据库</span>
+          </div>
+          <i class="fas fa-chevron-down" :class="{ 'rotated': expandedGroups.process }"></i>
+        </div>
+        <div class="nav-group-content" v-show="expandedGroups.process">
+          <!-- 工艺实例数据库 -->
+          <div class="nav-sub-group">
+            <div class="nav-sub-header" @click="toggleGroup('processInstances')">
+              <span>工艺实例数据库</span>
+              <i class="fas fa-chevron-down" :class="{ 'rotated': expandedGroups.processInstances }"></i>
+            </div>
+            <div class="nav-sub-content" v-show="expandedGroups.processInstances">
+              <!-- 光整需求导入项目 -->
+              <div class="nav-sub-sub-group">
+                <div class="nav-sub-sub-header" @click="toggleGroup('polishingRequirements')">
+                  <span>光整需求导入项目</span>
+                  <i class="fas fa-chevron-down" :class="{ 'rotated': expandedGroups.polishingRequirements }"></i>
+                </div>
+                <div class="nav-sub-sub-content" v-show="expandedGroups.polishingRequirements">
+                  <!-- 统计报表在光整需求导入项目下 -->
+                  <div class="nav-sub-sub-group">
+                    <div class="nav-sub-sub-header" @click="toggleGroup('statistics')">
+                      <span>统计报表</span>
+                      <i class="fas fa-chevron-down" :class="{ 'rotated': expandedGroups.statistics }"></i>
+                    </div>
+                    <div class="nav-sub-sub-content" v-show="expandedGroups.statistics">
+                      <router-link to="/process/statistics/polishing-requirements" class="nav-sub-sub-item">
+                        <span>光整需求统计</span>
+                      </router-link>
+                      <router-link to="/process/statistics/process-analysis" class="nav-sub-sub-item">
+                        <span>工艺分析报表</span>
+                      </router-link>
+                      <router-link to="/process/statistics/efficiency" class="nav-sub-sub-item">
+                        <span>效率统计报表</span>
+                      </router-link>
+                    </div>
+                  </div>
+                  <router-link to="/process/polishing/requirement-entry" class="nav-sub-sub-item">
+                    <span>光整需求录入</span>
+                  </router-link>
+                  <router-link to="/process/polishing/requirement-management" class="nav-sub-sub-item">
+                    <span>光整需求管理</span>
+                  </router-link>
+                  <router-link to="/process/polishing/requirement-analysis" class="nav-sub-sub-item">
+                    <span>光整需求分析</span>
+                  </router-link>
+                </div>
+              </div>
+              
+              <!-- 光整工艺录入（工艺师、管理员）作为并列的三级项目 -->
+              <router-link to="/process/polishing/process-entry-engineering" class="nav-sub-item">
+                <span>光整工艺录入（工艺师）</span>
+              </router-link>
+              <router-link to="/process/polishing/process-entry-admin" class="nav-sub-item">
+                <span>光整工艺录入（管理员）</span>
+              </router-link>
+              
+              <!-- 光整工艺审核作为并列的三级项目 -->
+              <div class="nav-sub-sub-group">
+                <div class="nav-sub-sub-header" @click="toggleGroup('processReview')">
+                  <span>光整工艺审核</span>
+                  <i class="fas fa-chevron-down" :class="{ 'rotated': expandedGroups.processReview }"></i>
+                </div>
+                <div class="nav-sub-sub-content" v-show="expandedGroups.processReview">
+                  <router-link to="/process/review/pending" class="nav-sub-sub-item">
+                    <span>待审核工艺</span>
+                  </router-link>
+                  <router-link to="/process/review/approved" class="nav-sub-sub-item">
+                    <span>已审核工艺</span>
+                  </router-link>
+                  <router-link to="/process/review/rejected" class="nav-sub-sub-item">
+                    <span>驳回工艺</span>
+                  </router-link>
+                </div>
+              </div>
+              
+              <!-- 历史审核记录作为并列的三级项目 -->
+              <div class="nav-sub-sub-group">
+                <div class="nav-sub-sub-header" @click="toggleGroup('historyRecords')">
+                  <span>历史审核记录</span>
+                  <i class="fas fa-chevron-down" :class="{ 'rotated': expandedGroups.historyRecords }"></i>
+                </div>
+                <div class="nav-sub-sub-content" v-show="expandedGroups.historyRecords">
+                  <router-link to="/process/history/all" class="nav-sub-sub-item">
+                    <span>全部审核记录</span>
+                  </router-link>
+                  <router-link to="/process/history/by-date" class="nav-sub-sub-item">
+                    <span>按日期查询</span>
+                  </router-link>
+                  <router-link to="/process/history/by-user" class="nav-sub-sub-item">
+                    <span>按用户查询</span>
+                  </router-link>
+                </div>
+              </div>
+              
+              <router-link to="/process/instances/management" class="nav-sub-item">
+                <span>工艺案例管理</span>
+              </router-link>
+            </div>
+          </div>
+          
+          <!-- 原有菜单项保持不变 -->
+          <router-link to="/process/case-data" class="nav-item">
+            <span>工艺案例数据库</span>
+          </router-link>
+          <router-link to="/process/expert" class="nav-item">
+            <span>工艺专家知识库</span>
+          </router-link>
+          <router-link to="/process/analysis" class="nav-item">
+            <span>工艺分析与评价</span>
+          </router-link>
+        </div>
+      </div>
     </div>
   </nav>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRouter } from 'vue-router'
-import { useUserStore } from '@/stores/user'
-import { useAuthStore } from '@/stores/auth'
-import type { UserType } from '@/types/auth'
+import { reactive } from 'vue'
 
-const router = useRouter()
-const userStore = useUserStore()
-const authStore = useAuthStore()
-
-// 获取当前用户信息
-const user = computed(() => userStore.user)
-
-// 用户类型显示文本
-const userTypeDisplay = computed(() => {
-  const typeMap: Record<UserType, string> = {
-    system_admin: '系统管理员',
-    process_engineer: '工艺工程师',
-    equipment_operator: '设备操作员',
-    quality_inspector: '质量检测员'
-  }
-  return user.value ? typeMap[user.value.user_type] : ''
+const expandedGroups = reactive({
+  system: true,
+  base: false,
+  material: false,
+  process: false,
+  analysis: false,
+  processInstances: false,
+  polishingRequirements: false,
+  statistics: false,
+  processReview: false,
+  historyRecords: false
 })
 
-// 角色判断计算属性
-const isSystemAdmin = computed(() => user.value?.user_type === 'system_admin')
-const isProcessEngineer = computed(() => user.value?.user_type === 'process_engineer')
-const isEquipmentOperator = computed(() => user.value?.user_type === 'equipment_operator')
-const isQualityInspector = computed(() => user.value?.user_type === 'quality_inspector')
-
-// 处理登出
-const handleLogout = async () => {
-  try {
-    await authStore.logout()
-    router.push('/login')
-  } catch (error) {
-    console.error('登出失败:', error)
-    alert('登出失败，请重试')
-  }
+const toggleGroup = (groupName: keyof typeof expandedGroups) => {
+  expandedGroups[groupName] = !expandedGroups[groupName]
 }
 </script>
 
@@ -156,6 +233,7 @@ const handleLogout = async () => {
   position: fixed;
   left: 0;
   top: 0;
+  z-index: 1000;
 }
 
 .nav-header {
@@ -170,31 +248,58 @@ const handleLogout = async () => {
   color: #fff;
 }
 
-.user-info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.username {
-  font-weight: 500;
-}
-
-.user-role {
-  font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.7);
-}
-
 .nav-menu {
   flex: 1;
   padding: 1rem 0;
   overflow-y: auto;
 }
 
+.nav-group {
+  margin: 0.5rem 0;
+}
+
+.nav-group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.nav-group-header:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-group-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.nav-group-header .fas.fa-chevron-down {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  transition: transform 0.2s ease;
+}
+
+.nav-group-header .fas.fa-chevron-down.rotated {
+  transform: rotate(180deg);
+}
+
+.nav-group-content {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-left: 2px solid rgba(255, 255, 255, 0.1);
+}
+
 .nav-item {
   display: flex;
   align-items: center;
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 1.5rem 0.75rem 2rem;
   color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
   transition: all 0.2s;
@@ -215,22 +320,122 @@ const handleLogout = async () => {
 .nav-item i {
   width: 1.25rem;
   text-align: center;
+  font-size: 0.9rem;
 }
 
-.logout-btn {
-  width: 100%;
-  background: none;
-  border: none;
+.nav-sub-group {
+  margin: 0.25rem 0;
+}
+
+.nav-sub-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1.5rem 0.5rem 2rem;
   cursor: pointer;
-  text-align: left;
-  font-size: 1rem;
+  transition: all 0.2s;
+  font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.8);
-  margin-top: auto;
 }
 
-.logout-btn:hover {
+.nav-sub-header:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+
+.nav-sub-header .fas.fa-chevron-down {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.5);
+  transition: transform 0.2s ease;
+}
+
+.nav-sub-header .fas.fa-chevron-down.rotated {
+  transform: rotate(180deg);
+}
+
+.nav-sub-content {
+  background-color: rgba(0, 0, 0, 0.15);
+  border-left: 2px solid rgba(255, 255, 255, 0.05);
+}
+
+.nav-sub-item {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1.5rem 0.5rem 2.5rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: all 0.2s;
+  font-size: 0.8rem;
+}
+
+.nav-sub-item:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.nav-sub-item.router-link-active {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border-left: 3px solid #42b983;
+}
+
+.nav-sub-sub-group {
+  margin: 0.25rem 0;
+}
+
+.nav-sub-sub-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem 0.5rem 2rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  background-color: rgba(255, 255, 255, 0.03);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.nav-sub-sub-header:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.nav-sub-sub-header .fas.fa-chevron-down {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.5);
+  transition: transform 0.2s ease;
+}
+
+.nav-sub-sub-header .fas.fa-chevron-down.rotated {
+  transform: rotate(180deg);
+}
+
+.nav-sub-sub-content {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-left: 2px solid rgba(255, 255, 255, 0.08);
+  margin-left: 1rem;
+}
+
+.nav-sub-sub-item {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem 0.5rem 2.5rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: all 0.2s;
+  font-size: 0.8rem;
+  gap: 0.5rem;
+}
+
+.nav-sub-sub-item:hover {
   background-color: rgba(255, 255, 255, 0.1);
   color: #fff;
+}
+
+.nav-sub-sub-item.router-link-active {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border-left: 3px solid #42b983;
 }
 
 @media (max-width: 768px) {
@@ -241,14 +446,15 @@ const handleLogout = async () => {
   }
 
   .nav-menu {
-    display: flex;
-    flex-wrap: wrap;
     padding: 0.5rem;
   }
 
-  .nav-item {
+  .nav-group-header {
     padding: 0.5rem 1rem;
-    flex: 1 1 auto;
+  }
+
+  .nav-item {
+    padding: 0.5rem 1rem 0.5rem 1.5rem;
   }
 }
 </style> 

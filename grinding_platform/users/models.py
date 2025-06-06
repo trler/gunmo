@@ -10,6 +10,7 @@ class CustomUser(AbstractUser):
         ('equipment_operator', '设备操作员'),
         ('quality_inspector', '质量检测员'),
         ('enterprise_admin', '企业管理员'),
+        ('fullstack_engineer', '全栈工程师'),
     ]
     
     # 基本信息字段

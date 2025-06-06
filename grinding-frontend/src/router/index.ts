@@ -46,87 +46,265 @@ const routes: RouteRecordRaw[] = [
       // 系统管理员路由
       {
         path: 'system',
-        meta: { allowedRoles: ['system_admin'] },
+        meta: { allowedRoles: ['system_admin', 'fullstack_engineer'] },
         children: [
           {
-            path: 'settings',
-            name: 'SystemSettings',
-            component: () => import('@/views/system/SettingsView.vue')
+            path: 'params',
+            name: 'SystemParams',
+            component: () => import('@/views/system/SystemParamsView.vue'),
+            meta: { title: '系统参数管理' }
+          },
+          {
+            path: 'permissions',
+            name: 'SystemPermissions',
+            component: () => import('@/views/system/SystemPermissionsView.vue'),
+            meta: { title: '系统权限管理' }
           },
           {
             path: 'users',
-            name: 'UserManagement',
-            component: () => import('@/views/system/UsersView.vue')
+            name: 'SystemUsers',
+            component: () => import('@/views/system/SystemUsersView.vue'),
+            meta: { title: '系统用户管理' }
+          },
+          {
+            path: 'logs',
+            name: 'SystemLogs',
+            component: () => import('@/views/system/SystemLogsView.vue'),
+            meta: { title: '系统日志管理' }
+          },
+          {
+            path: 'settings',
+            name: 'SystemSettings',
+            component: () => import('@/views/system/SettingsView.vue'),
+            meta: { title: '系统设置' }
           },
           {
             path: 'statistics',
             name: 'Statistics',
-            component: () => import('@/views/system/StatisticsView.vue')
+            component: () => import('@/views/system/StatisticsView.vue'),
+            meta: { title: '系统统计' }
           }
         ]
       },
       // 工艺工程师路由
       {
         path: 'process',
-        meta: { allowedRoles: ['process_engineer'] },
+        meta: { allowedRoles: ['process_engineer', 'fullstack_engineer'] },
         children: [
           {
             path: 'library',
             name: 'ProcessLibrary',
             component: () => import('@/views/process/LibraryView.vue')
+          },
+          {
+            path: 'blocks',
+            name: 'BlockInfo',
+            component: () => import('@/views/process/BlockInfoView.vue')
+          },
+          // 工艺实例数据库相关路由
+          {
+            path: 'instances/management',
+            name: 'ProcessInstancesManagement',
+            component: () => import('@/views/process/instances/ProcessInstancesManagementView.vue'),
+            meta: { title: '工艺案例管理', requiresAuth: true }
+          },
+          // 光整需求录入相关路由
+          {
+            path: 'polishing/requirement-entry',
+            name: 'PolishingRequirementEntry',
+            component: () => import('@/views/process/polishing/RequirementEntryView.vue'),
+            meta: { title: '光整需求录入', requiresAuth: true }
+          },
+          {
+            path: 'polishing/requirement-management',
+            name: 'PolishingRequirementManagement',
+            component: () => import('@/views/process/polishing/RequirementManagementView.vue'),
+            meta: { title: '光整需求管理', requiresAuth: true }
+          },
+          {
+            path: 'polishing/requirement-analysis',
+            name: 'PolishingRequirementAnalysis',
+            component: () => import('@/views/process/polishing/RequirementAnalysisView.vue'),
+            meta: { title: '光整需求分析', requiresAuth: true }
+          },
+          // 光整工艺录入路由
+          {
+            path: 'polishing/process-entry-engineering',
+            name: 'PolishingProcessEntryEngineering',
+            component: () => import('@/views/process/polishing/ProcessEntryEngineeringView.vue'),
+            meta: { title: '光整工艺录入(工艺师)', requiresAuth: true }
+          },
+          {
+            path: 'polishing/process-entry-admin',
+            name: 'PolishingProcessEntryAdmin',
+            component: () => import('@/views/process/polishing/ProcessEntryAdminView.vue'),
+            meta: { title: '光整工艺录入(管理员)', requiresAuth: true }
+          },
+          // 统计报表路由
+          {
+            path: 'statistics/polishing-requirements',
+            name: 'PolishingRequirementsStatistics',
+            component: () => import('@/views/process/statistics/PolishingRequirementsStatisticsView.vue'),
+            meta: { title: '光整需求统计', requiresAuth: true }
+          },
+          {
+            path: 'statistics/process-analysis',
+            name: 'ProcessAnalysisStatistics',
+            component: () => import('@/views/process/statistics/ProcessAnalysisStatisticsView.vue'),
+            meta: { title: '工艺分析报表', requiresAuth: true }
+          },
+          {
+            path: 'statistics/efficiency',
+            name: 'EfficiencyStatistics',
+            component: () => import('@/views/process/statistics/EfficiencyStatisticsView.vue'),
+            meta: { title: '效率统计报表', requiresAuth: true }
+          },
+          // 工艺审核路由
+          {
+            path: 'review/pending',
+            name: 'ProcessReviewPending',
+            component: () => import('@/views/process/review/PendingReviewView.vue'),
+            meta: { title: '待审核工艺', requiresAuth: true }
+          },
+          {
+            path: 'review/approved',
+            name: 'ProcessReviewApproved',
+            component: () => import('@/views/process/review/ApprovedReviewView.vue'),
+            meta: { title: '已审核工艺', requiresAuth: true }
+          },
+          {
+            path: 'review/rejected',
+            name: 'ProcessReviewRejected',
+            component: () => import('@/views/process/review/RejectedReviewView.vue'),
+            meta: { title: '驳回工艺', requiresAuth: true }
+          },
+          // 历史审核记录路由
+          {
+            path: 'history/all',
+            name: 'ProcessHistoryAll',
+            component: () => import('@/views/process/history/AllHistoryView.vue'),
+            meta: { title: '全部审核记录', requiresAuth: true }
+          },
+          {
+            path: 'history/by-date',
+            name: 'ProcessHistoryByDate',
+            component: () => import('@/views/process/history/HistoryByDateView.vue'),
+            meta: { title: '按日期查询', requiresAuth: true }
+          },
+          {
+            path: 'history/by-user',
+            name: 'ProcessHistoryByUser',
+            component: () => import('@/views/process/history/HistoryByUserView.vue'),
+            meta: { title: '按用户查询', requiresAuth: true }
+          },
+          // 原有路由保持不变
+          {
+            path: 'case-data',
+            name: 'ProcessCaseData',
+            component: () => import('@/views/process/ProcessCaseDataView.vue'),
+            meta: { title: '工艺案例数据库', requiresAuth: true }
+          },
+          {
+            path: 'expert',
+            name: 'ProcessExpert',
+            component: () => import('@/views/process/ProcessExpertView.vue'),
+            meta: { title: '工艺专家知识库', requiresAuth: true }
+          },
+          {
+            path: 'analysis',
+            name: 'ProcessAnalysis',
+            component: () => import('@/views/process/ProcessAnalysisView.vue'),
+            meta: { title: '工艺分析与评价', requiresAuth: true }
           }
-          // TODO: 添加其他工艺相关页面
-          // {
-          //   path: 'optimization',
-          //   name: 'ProcessOptimization',
-          //   component: () => import('@/views/process/OptimizationView.vue')
-          // },
-          // {
-          //   path: 'cases',
-          //   name: 'ProcessCases',
-          //   component: () => import('@/views/process/CasesView.vue')
-          // }
         ]
       },
-      // 设备操作员路由
+      // 物料信息管理路由组
       {
-        path: 'equipment',
-        meta: { allowedRoles: ['equipment_operator'] },
+        path: 'material',
         children: [
           {
-            path: 'operation',
-            name: 'EquipmentOperation',
-            component: () => import('@/views/equipment/EquipmentOperationView.vue')
+            path: 'parts',
+            name: 'MaterialParts',
+            component: () => import('@/views/equipment/EquipmentInfoView.vue'),
+            meta: { title: '零件信息数据库', requiresAuth: true }
+          },
+          {
+            path: 'equipment',
+            name: 'MaterialEquipment',
+            component: () => import('@/views/equipment/EquipmentInfoView.vue'),
+            meta: { title: '滚磨设备数据库', requiresAuth: true }
+          },
+          {
+            path: 'blocks',
+            name: 'MaterialBlocks',
+            component: () => import('@/views/process/BlockInfoView.vue'),
+            meta: { title: '滚抛磨块数据库', requiresAuth: true }
+          },
+          {
+            path: 'chemicals',
+            name: 'MaterialChemicals',
+            component: () => import('@/views/equipment/ChemicalView.vue'),
+            meta: { title: '化学剂数据库', requiresAuth: true }
+          },
+          {
+            path: 'fixtures',
+            name: 'MaterialFixtures',
+            component: () => import('@/views/equipment/FixtureView.vue'),
+            meta: { title: '工装信息数据库', requiresAuth: true }
           }
-          // TODO: 添加其他设备相关页面
-          // {
-          //   path: 'monitor',
-          //   name: 'EquipmentMonitor',
-          //   component: () => import('@/views/equipment/MonitorView.vue')
-          // },
-          // {
-          //   path: 'records',
-          //   name: 'EquipmentRecords',
-          //   component: () => import('@/views/equipment/RecordsView.vue')
-          // }
+        ]
+      },
+      // 基础信息库路由
+      {
+        path: 'base-info',
+        children: [
+          {
+            path: '',
+            name: 'BaseInfoIndex',
+            component: () => import('@/views/base-info/BaseInfoIndex.vue'),
+            meta: { title: '基础信息库', requiresAuth: true }
+          },
+          {
+            path: 'companies',
+            name: 'CompanyManagement',
+            component: () => import('@/views/base-info/CompanyManagement.vue'),
+            meta: { title: '企业信息管理', requiresAuth: true }
+          },
+          {
+            path: 'departments',
+            name: 'DepartmentManagement',
+            component: () => import('@/views/base-info/DepartmentManagement.vue'),
+            meta: { title: '部门信息管理', requiresAuth: true }
+          },
+          {
+            path: 'personnel',
+            name: 'PersonnelManagement',
+            component: () => import('@/views/base-info/PersonnelManagement.vue'),
+            meta: { title: '人员信息管理', requiresAuth: true }
+          },
+          {
+            path: 'standards',
+            name: 'StandardManagement',
+            component: () => import('@/views/base-info/StandardManagement.vue'),
+            meta: { title: '标准规范管理', requiresAuth: true }
+          }
         ]
       },
       // 质量检测员路由
       {
         path: 'quality',
-        meta: { allowedRoles: ['quality_inspector'] },
+        meta: { allowedRoles: ['quality_inspector', 'fullstack_engineer'] },
         children: [
           {
             path: 'inspection',
             name: 'QualityInspection',
             component: () => import('@/views/quality/QualityInspectionView.vue')
+          },
+          {
+            path: 'reports',
+            name: 'QualityReports',
+            component: () => import('@/views/quality/QualityReportsView.vue')
           }
-          // TODO: 添加其他质量相关页面
-          // {
-          //   path: 'reports',
-          //   name: 'QualityReports',
-          //   component: () => import('@/views/quality/ReportsView.vue')
-          // }
         ]
       }
     ]
