@@ -49,3 +49,25 @@ lerna-debug.log*
 .env.development.local
 .env.test.local
 .env.production.local 
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary files
+*.tmp
+*.bak
+*.backup
+
+# Project specific
+debug.log
+PROJECT_STRUCTURE.md
+install.bat
+migrations/__pycache__/
+migrations/*.pyc
+
+# Build outputs
+build/
+.build/
+coverage/ 

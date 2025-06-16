@@ -197,6 +197,43 @@ const routes: RouteRecordRaw[] = [
             component: () => import('@/views/process/history/HistoryByUserView.vue'),
             meta: { title: '按用户查询', requiresAuth: true }
           },
+          // 案例推理系统路由
+          {
+            path: 'case-reasoning',
+            name: 'CaseReasoningIndex',
+            component: () => import('@/views/process/case-reasoning/CaseReasoningIndexView.vue'),
+            meta: { title: '案例推理系统', requiresAuth: true }
+          },
+          {
+            path: 'case-reasoning/feature-entry',
+            name: 'CaseFeatureEntry',
+            component: () => import('@/views/process/case-reasoning/CaseFeatureEntryView.vue'),
+            meta: { title: '案例特征录入', requiresAuth: true }
+          },
+          {
+            path: 'case-reasoning/weight-matrix',
+            name: 'WeightMatrix',
+            component: () => import('@/views/process/case-reasoning/WeightMatrixView.vue'),
+            meta: { title: '权重设置与判断矩阵', requiresAuth: true }
+          },
+          {
+            path: 'case-reasoning/weight-calculation',
+            name: 'WeightCalculation',
+            component: () => import('@/views/process/case-reasoning/WeightCalculationView.vue'),
+            meta: { title: '计算特征权重', requiresAuth: true }
+          },
+          {
+            path: 'case-reasoning/matching-result',
+            name: 'CaseMatchingResult',
+            component: () => import('@/views/process/case-reasoning/CaseMatchingResultView.vue'),
+            meta: { title: '案例匹配结果', requiresAuth: true }
+          },
+          {
+            path: 'case-reasoning/reasoning-result',
+            name: 'CaseReasoningResult',
+            component: () => import('@/views/process/case-reasoning/CaseReasoningResultView.vue'),
+            meta: { title: '案例推理结果', requiresAuth: true }
+          },
           // 原有路由保持不变
           {
             path: 'case-data',

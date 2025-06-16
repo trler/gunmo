@@ -1,129 +1,232 @@
-# 滚磨光整加工管理系统
+# 滚磨光整加工案例推理系统
 
-## 项目简介
-滚磨光整加工管理系统是一个专门为滚磨光整加工行业设计的智能化管理解决方案。系统集成了设备管理、工艺数据管理、用户管理等功能，旨在提高生产效率、优化工艺流程、实现智能化管理。
+[![Vue](https://img.shields.io/badge/Vue-3.x-green.svg)](https://vuejs.org/)
+[![Django](https://img.shields.io/badge/Django-4.2-blue.svg)](https://www.djangoproject.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)](https://www.typescriptlang.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## 主要功能
-1. 设备管理
-   - 设备信息管理
-   - 设备状态监控
-   - 设备维护记录
-   - 设备告警管理
+基于Vue3 + Django + JWT认证的前后端分离智能制造系统，专注于滚磨光整加工工艺的案例智能推理与优选。
 
-2. 工艺数据管理
-   - 工艺参数记录
-   - 加工过程监控
-   - 数据统计分析
-   - 质量追溯
+## 🎯 项目概述
 
-3. 用户管理
-   - 用户认证授权
-   - 角色权限管理
-   - 用户信息管理
-   - 操作日志记录
+本系统是一个专业的滚磨光整加工案例智能推理平台，集成了案例特征录入、权重设置、特征权重计算和案例推理等核心功能模块，基于层次分析法(AHP)实现智能案例匹配与工艺参数推荐。
 
-## 技术栈
-### 前端
-- Vue 3
-- TypeScript
-- Vite
-- Pinia
-- Vue Router
-- Element Plus
-- Axios
+## ✨ 核心功能
 
-### 后端
-- Django
-- Django REST framework
-- JWT认证
-- PostgreSQL
-- Redis
+### 🔧 案例推理系统
+- **案例特征录入** - 完整的加工案例数据录入和管理
+- **权重设置与判断矩阵** - 基于AHP的科学权重配置 
+- **计算特征权重** - 层次分析法权重计算与一致性检验
+- **案例推理结果** - 智能案例匹配与可视化展示
 
-## 开发环境要求
-- Python 3.8+
-- Node.js 16+
-- PostgreSQL 12+
-- Redis 6+
+### 📊 工艺数据管理
+- **工艺案例数据库** - 案例录入、查询、修改、删除
+- **工艺专家知识库** - 专家经验知识管理
+- **工艺分析与评价** - 工艺参数分析评估
 
-## 快速开始
-1. 克隆项目
-```bash
-git clone https://github.com/your-username/rolling-polishing-system.git
-cd rolling-polishing-system
+### 🏭 物料信息管理
+- **零件信息数据库** - 零件材质、规格管理
+- **滚磨设备数据库** - 设备参数配置
+- **滚抛磨块数据库** - 磨块类型规格管理
+- **化学剂数据库** - 化学剂配方管理
+- **工装信息数据库** - 工装夹具信息
+
+### 👥 系统管理
+- **用户权限管理** - 多角色权限控制
+- **基础信息库** - 企业、部门、人员管理
+- **系统设置** - 系统参数配置
+
+## 🛠 技术架构
+
+### 前端技术栈
+- **Vue 3** - 渐进式JavaScript框架
+- **TypeScript** - 类型安全的JavaScript超集
+- **Element Plus** - Vue3组件库
+- **Vite** - 现代化构建工具
+- **Vue Router** - 官方路由管理器
+- **Axios** - HTTP客户端
+
+### 后端技术栈
+- **Django 4.2** - Python Web框架
+- **Django REST Framework** - REST API框架
+- **Django Simple JWT** - JWT认证
+- **Django CORS Headers** - 跨域处理
+- **MySQL** - 关系型数据库
+
+### 核心算法
+- **层次分析法(AHP)** - 权重计算与一致性检验
+- **相似度算法** - 欧氏距离、余弦相似度、曼哈顿距离
+- **案例匹配算法** - 基于权重的智能案例检索
+
+## 📁 项目结构
+
+```
+vue-django-jwt-auth/
+├── grinding-frontend/          # Vue3前端项目
+│   ├── src/
+│   │   ├── views/             # 页面组件
+│   │   │   ├── process/       # 工艺管理模块
+│   │   │   ├── equipment/     # 设备管理
+│   │   │   ├── base-info/     # 基础信息
+│   │   │   └── ...
+│   │   ├── components/        # 公共组件
+│   │   ├── services/          # API服务
+│   │   ├── router/           # 路由配置
+│   │   └── docs/             # 技术文档
+│   ├── package.json
+│   └── ...
+├── grinding_platform/         # Django后端项目
+│   ├── grinding_platform/    # Django配置
+│   ├── users/                # 用户模块
+│   ├── process_cases/        # 工艺案例模块
+│   ├── equipment/            # 设备管理模块
+│   ├── base_info/           # 基础信息模块
+│   ├── manage.py
+│   └── ...
+├── requirements.txt          # Python依赖
+├── README.md                # 项目说明
+└── ...
 ```
 
-2. 后端设置
+## 🚀 快速开始
+
+### 环境要求
+- **Node.js** >= 16.0.0
+- **Python** >= 3.8
+- **MySQL** >= 8.0
+
+### 后端安装与运行
+
+1. **创建虚拟环境**
 ```bash
-# 创建虚拟环境
 python -m venv venv
-source venv/bin/activate  # Linux/Mac
-venv\Scripts\activate     # Windows
+source venv/bin/activate  # Windows: venv\Scripts\activate
+```
 
-# 安装依赖
+2. **安装依赖**
+```bash
 pip install -r requirements.txt
+```
 
-# 数据库迁移
+3. **数据库配置**
+```bash
+cd grinding_platform
+python manage.py makemigrations
 python manage.py migrate
+```
 
-# 创建超级用户
+4. **创建超级用户**
+```bash
 python manage.py createsuperuser
+```
 
-# 启动开发服务器
+5. **启动开发服务器**
+```bash
 python manage.py runserver
 ```
 
-3. 前端设置
+后端API服务运行在: `http://localhost:8000`
+
+### 前端安装与运行
+
+1. **安装依赖**
 ```bash
 cd grinding-frontend
-
-# 安装依赖
 npm install
+```
 
-# 启动开发服务器
+2. **启动开发服务器**
+```bash
 npm run dev
 ```
 
-## 部署说明
-1. 后端部署
-   - 使用 Gunicorn 作为 WSGI 服务器
-   - 配置 Nginx 作为反向代理
-   - 设置环境变量和配置文件
+前端应用运行在: `http://localhost:5173`
 
-2. 前端部署
-   - 构建生产版本：`npm run build`
-   - 配置 Nginx 托管静态文件
-   - 设置 API 代理
-
-## 项目结构
-```
-rolling-polishing-system/
-├── grinding_platform/          # 后端项目
-│   ├── users/                 # 用户管理
-│   ├── equipment/            # 设备管理
-│   ├── process_data/         # 工艺数据管理
-│   └── grinding_platform/    # 项目配置
-├── grinding-frontend/         # 前端项目
-│   ├── src/
-│   │   ├── components/       # 组件
-│   │   ├── views/           # 页面
-│   │   ├── stores/          # 状态管理
-│   │   ├── router/          # 路由配置
-│   │   └── types/           # 类型定义
-│   └── public/              # 静态资源
-└── docs/                    # 项目文档
+3. **生产构建**
+```bash
+npm run build
 ```
 
-## 贡献指南
+## 🎮 系统使用
+
+### 访问路径
+1. **案例推理系统主入口**: `工艺数据库 → 工艺案例数据库 → 案例推理系统`
+2. **直接URL访问**: `/process/case-reasoning`
+
+### 案例推理流程
+1. **案例特征录入** - 录入待处理工件的特征参数
+2. **权重设置与判断矩阵** - 使用AHP方法设置特征权重
+3. **计算特征权重** - 自动计算并验证权重一致性
+4. **案例推理结果** - 获取智能匹配的相似案例和推荐方案
+
+## 🔧 主要特性
+
+### 🎯 智能推理算法
+- **多种相似度算法**: 加权欧氏距离、余弦相似度、曼哈顿距离、综合相似度
+- **AHP层次分析法**: 科学的权重配置与一致性检验
+- **案例智能匹配**: 基于权重的高精度案例检索
+
+### 📊 数据可视化
+- **权重分布饼图**: 直观显示特征权重分布
+- **相似度评分**: 实时计算案例匹配度
+- **推荐级别标签**: 彩色标签区分推荐等级
+
+### ⚡ 性能优化
+- **数据库索引优化**: 支持大量案例高速检索
+- **分页查询**: 大数据量分页展示
+- **虚拟滚动**: 前端性能优化
+- **多级缓存**: 提升响应速度
+
+## 📝 API文档
+
+系统提供完整的RESTful API，主要端点包括：
+
+### 认证相关
+- `POST /api/token/` - 获取JWT令牌
+- `POST /api/token/refresh/` - 刷新JWT令牌
+- `POST /api/users/register/` - 用户注册
+- `POST /api/users/login/` - 用户登录
+
+### 工艺数据管理
+- `GET/POST /api/process-data/` - 工艺数据管理
+- `GET/PUT/DELETE /api/process-data/{id}/` - 工艺数据详情操作
+
+### 设备管理
+- `GET/POST /api/equipment/` - 设备管理
+- `GET/PUT/DELETE /api/equipment/{id}/` - 设备详情操作
+
+## 🤝 贡献指南
+
 1. Fork 项目
-2. 创建特性分支
-3. 提交更改
-4. 推送到分支
-5. 创建 Pull Request
+2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 开启 Pull Request
 
-## 许可证
-MIT License
+## 📄 许可证
 
-## 联系方式
-- 项目维护者：[您的名字]
-- 邮箱：[您的邮箱]
-- 项目主页：[项目地址] 
+本项目基于 MIT 许可证开源 - 查看 [LICENSE](LICENSE) 文件了解详情
+
+## 👨‍💻 作者
+
+**智能制造案例推理系统开发团队**
+
+- 系统架构: 前后端分离架构 + JWT认证
+- 前端技术: Vue3 + TypeScript + Element Plus
+- 后端技术: Django + DRF + MySQL
+- 核心算法: AHP层次分析法 + 多种相似度算法
+
+## 🔗 相关链接
+
+- [Vue.js 官方文档](https://vuejs.org/)
+- [Django 官方文档](https://docs.djangoproject.com/)
+- [Element Plus 组件库](https://element-plus.org/)
+- [Django REST Framework](https://www.django-rest-framework.org/)
+
+## 🙏 致谢
+
+感谢所有为这个项目贡献代码、提出建议和报告问题的开发者！
+
+---
+
+⭐ 如果这个项目对您有帮助，请给我们一个Star！ 
